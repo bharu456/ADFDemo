@@ -1,0 +1,7 @@
+{
+	"name": "oracle",
+	"properties": {
+		"type": "SelfHosted",
+		"description": "oracle"
+	}
+}
