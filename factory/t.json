@@ -1,0 +1,2535 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 1,
+  "iteration": 1613080468415,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "datasource": "Prometheus",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 21,
+      "panels": [],
+      "title": "Cluster Level",
+      "type": "row"
+    },
+	{
+      "datasource": "Prometheus",
+	  "description": "The total count of messages received in last 24 hours.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "semi-dark-green",
+            "mode": "palette-classic"
+          },
+          "custom": {},
+		  "displayName": "Received records",
+          "mappings": [],
+		  "noValue": "0",
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 1
+      },
+      "id": 23,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "7.3.7",
+      "targets": [
+        {
+          "expr": "sum by (kafka_id) (sum_over_time(confluent_kafka_server_received_records{kafka_id=~\"$clusterID\"}[1d]))",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "__auto",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": "1d",
+      "timeShift": null,
+      "title": "Messages received",
+      "type": "stat"
+    },
+	{
+      "datasource": "Prometheus",
+	  "description": "The total count of messages sent in last 24 hours.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "semi-dark-green",
+            "mode": "palette-classic"
+          },
+          "custom": {},
+		  "displayName": "Sent records",
+          "mappings": [],
+		  "noValue": "0",
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 1
+      },
+      "id": 24,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "7.3.7",
+      "targets": [
+        {
+          "expr": "sum by (kafka_id) (sum_over_time(confluent_kafka_server_sent_records{kafka_id=~\"$clusterID\"}[1d]))",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "__auto",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": "1d",
+      "timeShift": null,
+      "title": "Messages sent",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "description": "Per-second average rate of ingress of data to topics. Dedicated cluster with 1 CKU has a max of 50MiBps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "max": 52428800,
+          "min": 0,
+		  "displayName": "Production throughput",
+		  "noValue": "0",
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 80
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "binBps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 1
+      },
+      "id": 17,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "7.3.7",
+      "targets": [
+        {
+          "expr": "sum(confluent_kafka_server_received_bytes{kafka_id=~\"$clusterID\"})/60",
+          "interval": "",
+          "legendFormat": "__auto",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Production throughput",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "description": "Per-second average rate of egress data to topics. Dedicated cluster with 1 CKU has a max of 150MiBps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "max": 157286400,
+          "min": 0,
+		  "noValue": "0",
+		  "displayName": "Consumption throughput",
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 80
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "binBps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 1
+      },
+      "id": 18,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "7.3.7",
+      "targets": [
+        {
+          "expr": "sum(confluent_kafka_server_sent_bytes{kafka_id=~\"$clusterID\"})/60",
+          "interval": "",
+          "legendFormat": "__auto",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Consumption throughput",
+      "type": "stat"
+    },
+	{
+      "datasource": "Prometheus",
+      "description": "The sum of partitions in a cluster. Dedicated cluster with 1 CKU have max partitions limit is 4500.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "max": 4500,
+          "min": 0,
+		  "noValue": "0",
+		  "displayName": "Partition count",
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 80
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 5
+      },
+      "id": 19,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "7.3.7",
+      "targets": [
+        {
+          "expr": "sum(confluent_kafka_server_partition_count{kafka_id=~\"$clusterID\"})",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "__auto",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Partition count ",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "description": "Total Storage. Dedicated clusters have infinite storage but we flag at 5TiB",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "max": 5497558138880,
+          "min": 0,
+		  "displayName": "Storage",
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 80
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 4,
+        "y": 5
+      },
+      "id": 12,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "7.3.7",
+      "targets": [
+        {
+          "expr": "sum(confluent_kafka_server_retained_bytes{kafka_id=~\"$clusterID\"})",
+          "interval": "",
+          "legendFormat": "__auto",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Storage",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "description": "Per-second average rate of requests. Dedicated cluster maxes out at 15000 requests per second.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "max": 15000,
+          "min": 0,
+		  "displayName": "Request rate",
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 80
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "reqps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 8,
+        "y": 5
+      },
+      "id": 10,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "7.3.7",
+      "targets": [
+        {
+          "expr": "sum(confluent_kafka_server_request_count{type=~\".*\", kafka_id=~\"$clusterID\"})/60",
+          "interval": "",
+          "legendFormat": "__auto",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Requests count",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "description": "Dedicated clusters have a limit of 5000 on the number of partitions that can be created and deleted in a 5 minute period. This single stat provides the absolute difference between the number of partitions at the beginning and end of the 5 minute period. This over simplifies the problem, so more conservative thresholds are put in place.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "decimals": 0,
+          "mappings": [],
+          "max": 5000,
+          "min": 0,
+		  "displayName": "Partition count change in 5 min",
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 50
+              },
+              {
+                "color": "red",
+                "value": 60
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 12,
+        "y": 5
+      },
+      "id": 8,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "7.3.7",
+      "targets": [
+        {
+          "expr": "abs(delta(confluent_kafka_server_partition_count{kafka_id=~\"$clusterID\"}[5m]))",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "__auto",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Partition count change",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "description": "The total number of active connections to the cluster. Dedicated clusters with 1 CKU limit active connections to 3000.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "displayName": "Active connection count",
+          "mappings": [],
+          "max": 3000,
+          "min": 0,
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 80
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 16,
+        "y": 5
+      },
+      "id": 22,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "7.3.7",
+      "targets": [
+        {
+          "expr": "sum(confluent_kafka_server_active_connection_count{kafka_id=~\"$clusterID\"})",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "__auto",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Client connections",
+      "type": "stat"
+    },
+	{
+	  "datasource": "Prometheus",
+	  "description": "Load on the cluster. This is a measure of the utilization of the cluster",
+	  "fieldConfig": {
+		"defaults": {
+		  "color": {
+			"mode": "thresholds"
+		  },
+		  "custom": {},
+		  "displayName": "Cluster load",
+		  "mappings": [],
+		  "max": 100,
+		  "min": 0,
+		  "thresholds": {
+			"mode": "percentage",
+			"steps": [
+			  {
+				"color": "green",
+				"value": null
+			  },
+			  {
+				"color": "#EAB839",
+				"value": 80
+			  },
+			  {
+				"color": "red",
+				"value": 90
+			  }
+			]
+		  },
+		  "unit": "percent"
+		},
+		"overrides": []
+	  },
+	  "gridPos": {
+		"h": 4,
+		"w": 4,
+		"x": 20,
+		"y": 5
+	  },
+	  "id": 28,
+	  "options": {
+		"colorMode": "value",
+		"graphMode": "area",
+		"justifyMode": "auto",
+		"orientation": "auto",
+		"reduceOptions": {
+		  "calcs": [
+			"last"
+		  ],
+		  "fields": "",
+		  "values": false
+		},
+		"textMode": "value"
+	  },
+	  "pluginVersion": "7.3.7",
+	  "targets": [
+		{
+		  "expr": "confluent_kafka_server_cluster_load_percent{kafka_id=~\"$clusterID\"}*100",
+		  "hide": false,
+		  "interval": "",
+		  "legendFormat": "__auto",
+		  "refId": "A"
+		}
+	  ],
+	  "timeFrom": null,
+	  "timeShift": null,
+	  "title": "Load on cluster",
+	  "type": "stat"
+	},
+	{
+	  "datasource": "Prometheus",
+	  "description": "Total data produced on the Kafka cluster in the selected time range",
+	  "fieldConfig": {
+		"defaults": {
+		  "mappings": [],
+		  "color": {
+			"mode": "palette-classic"
+		  },
+		  "displayName": "Data Produced",
+		  "min": 0,
+		  "unit": "bytes",
+		  "noValue": "0"
+		},
+		"overrides": []
+	  },
+	  "id": 88,
+	  "gridPos": {
+		"h": 4,
+		"w": 12,
+		"x": 0,
+		"y": 9
+	  },
+	  "type": "stat",
+	  "title": "Data produced in selected time range",
+	  "pluginVersion": "8.5.3",
+	  "options": {
+		"reduceOptions": {
+		  "values": false,
+		  "calcs": [
+			"last"
+		  ],
+		  "fields": "",
+		  "limit": 25
+		},
+		"orientation": "auto",
+		"textMode": "value",
+		"colorMode": "value",
+		"graphMode": "none",
+		"justifyMode": "auto"
+	  },
+	  "targets": [
+		{
+		  "expr": "sum by (kafka_id) (sum_over_time(confluent_kafka_server_received_bytes{kafka_id=~\"$clusterID\"}[$__range]))",
+		  "interval": "",
+		  "legendFormat": "__auto",
+		  "refId": "A",
+		  "datasource": {
+			"type": "prometheus",
+			"uid": "PBFA97CFB590B2093"
+		  }
+		}
+	  ],
+	  "timeFrom": null,
+	  "timeShift": null
+	},
+	{
+	  "datasource": "Prometheus",
+	  "description": "Total data consumed from the Kafka cluster in the selected time range",
+	  "fieldConfig": {
+		"defaults": {
+		  "mappings": [],
+		  "color": {
+			"mode": "palette-classic"
+		  },
+		  "displayName": "Data Consumed",
+		  "min": 0,
+		  "unit": "bytes"
+		},
+		"overrides": []
+	  },
+	  "id": 89,
+	  "gridPos": {
+		"h": 4,
+		"w": 12,
+		"x": 12,
+		"y": 9
+	  },
+	  "type": "stat",
+	  "title": "Data consumed in selected time range",
+	  "pluginVersion": "8.5.3",	  
+	  "options": {
+		"reduceOptions": {
+		  "values": false,
+		  "calcs": [
+			"last"
+		  ],
+		  "fields": ""
+		},
+		"orientation": "auto",
+		"textMode": "value",
+		"colorMode": "value",
+		"graphMode": "none",
+		"justifyMode": "auto"
+	  },
+	  "targets": [
+		{
+		  "expr": "sum by (kafka_id) (sum_over_time(confluent_kafka_server_sent_bytes{kafka_id=~\"$clusterID\"}[$__range]))",
+		  "interval": "",
+		  "legendFormat": "__auto",
+		  "refId": "A",
+		  "datasource": {
+			"type": "prometheus",
+			"uid": "PBFA97CFB590B2093"
+		  }
+		}
+	  ],
+	  "timeFrom": null,
+	  "timeShift": null
+	},
+	{
+	  "datasource": "Prometheus",
+	  "description": "Percentage utilzation of cluster",
+	  "id": 90,
+	  "gridPos": {
+		"h": 6,
+		"w": 24,
+		"x": 0,
+		"y": 13
+	  },
+	  "type": "timeseries",
+	  "title": "Cluster Load %",
+	  "pluginVersion": "8.5.3",
+	  "fieldConfig": {
+		"defaults": {
+		  "custom": {
+			"drawStyle": "line",
+			"lineInterpolation": "smooth",
+			"barAlignment": 0,
+			"lineWidth": 1,
+			"fillOpacity": 30,
+			"gradientMode": "none",
+			"spanNulls": true,
+			"showPoints": "never",
+			"pointSize": 5,
+			"stacking": {
+			  "mode": "none",
+			  "group": "A"
+			},
+			"axisPlacement": "auto",
+			"axisLabel": "",
+			"scaleDistribution": {
+			  "type": "linear"
+			},
+			"hideFrom": {
+			  "tooltip": false,
+			  "viz": false,
+			  "legend": false
+			},
+			"thresholdsStyle": {
+			  "mode": "line"
+			},
+			"lineStyle": {
+			  "fill": "solid"
+			}
+		  },
+		  "color": {
+			"mode": "palette-classic"
+		  },
+		  "mappings": [],
+		  "thresholds": {
+			"mode": "absolute",
+			"steps": [
+			  {
+				"color": "semi-dark-green",
+				"value": null
+			  },
+			  {
+				"color": "orange",
+				"value": 80
+			  },
+			  {
+				"color": "red",
+				"value": 90
+			  }
+			]
+		  },
+		  "displayName": "Cluster Load",
+		  "links": [],
+		  "unit": "percent",
+		  "min": 0,
+		  "noValue": "0"
+		},
+		"overrides": []
+	  },
+	  "options": {
+		"tooltip": {
+		  "mode": "multi",
+		  "sort": "none"
+		},
+		"legend": {
+		  "displayMode": "hidden",
+		  "placement": "bottom",
+		  "calcs": []
+		}
+	  },
+	  "targets": [
+		{
+		  "expr": "confluent_kafka_server_cluster_load_percent{kafka_id=~\"$clusterID\"}*100",
+		  "hide": false,
+		  "interval": "",
+		  "legendFormat": "",
+		  "refId": "A",
+		  "datasource": {
+			"type": "prometheus",
+			"uid": "PBFA97CFB590B2093"
+		  }
+		}
+	  ],
+	  "timeFrom": null,
+	  "timeShift": null
+	},
+	{
+	  "aliasColors": {},
+	  "bars": false,
+	  "dashLength": 10,
+	  "dashes": false,
+	  "datasource": "Prometheus",
+	  "description": "The total amount of bytes received per second over the network.",
+	  "fieldConfig": {
+		"defaults": {
+		  "custom": {},
+		  "links": [],
+		  "unit": "binBps",
+		  "displayName": "Production Rate"
+		},
+		"overrides": []
+	  },
+	  "fill": 1,
+	  "fillGradient": 0,
+	  "gridPos": {
+		"h": 6,
+		"w": 12,
+		"x": 0,
+		"y": 19
+	  },
+	  "hiddenSeries": false,
+	  "id": 81,
+	  "legend": {
+		"avg": false,
+		"current": false,
+		"max": false,
+		"min": false,
+		"show": false,
+		"total": false,
+		"values": false
+	  },
+	  "lines": true,
+	  "linewidth": 1,
+	  "nullPointMode": "null",
+	  "options": {
+		"alertThreshold": true
+	  },
+	  "percentage": false,
+	  "pluginVersion": "7.3.7",
+	  "pointradius": 2,
+	  "points": false,
+	  "renderer": "flot",
+	  "seriesOverrides": [],
+	  "spaceLength": 10,
+	  "stack": false,
+	  "steppedLine": false,
+	  "targets": [
+		{
+		  "expr": "sum (confluent_kafka_server_received_bytes{kafka_id=~\"$clusterID\"})/60",
+		  "hide": false,
+		  "interval": "",
+		  "legendFormat": "",
+		  "refId": "A"
+		}
+	  ],
+	  "thresholds": [],
+	  "timeFrom": null,
+	  "timeRegions": [],
+	  "timeShift": null,
+	  "title": "Production Throughput(bytes/sec)",
+	  "tooltip": {
+		"shared": true,
+		"sort": 2,
+		"value_type": "individual"
+	  },
+	  "type": "graph",
+	  "xaxis": {
+		"buckets": null,
+		"mode": "time",
+		"name": null,
+		"show": true,
+		"values": []
+	  },
+	  "yaxes": [
+		{
+		  "decimals": null,
+		  "format": "binBps",
+		  "label": null,
+		  "logBase": 1,
+		  "max": null,
+		  "min": null,
+		  "show": true
+		},
+		{
+		  "format": "short",
+		  "label": null,
+		  "logBase": 1,
+		  "max": null,
+		  "min": null,
+		  "show": true
+		}
+	  ],
+	  "yaxis": {
+		"align": false,
+		"alignLevel": null
+	  }
+	},
+	{
+	  "aliasColors": {},
+	  "bars": false,
+	  "dashLength": 10,
+	  "dashes": false,
+	  "datasource": "Prometheus",
+	  "description": "The total amount of bytes sent per second over the network",
+	  "fieldConfig": {
+		"defaults": {
+		  "custom": {},
+		  "links": [],
+		  "unit": "binBps",
+		  "displayName": "Consumption Rate"
+		},
+		"overrides": []
+	  },
+	  "fill": 1,
+	  "fillGradient": 0,
+	  "gridPos": {
+		"h": 6,
+		"w": 12,
+		"x": 12,
+		"y": 19
+	  },
+	  "hiddenSeries": false,
+	  "id": 82,
+	  "legend": {
+		"avg": false,
+		"current": false,
+		"hideEmpty": false,
+		"hideZero": false,
+		"max": false,
+		"min": false,
+		"show": false,
+		"total": false,
+		"values": false
+	  },
+	  "lines": true,
+	  "linewidth": 1,
+	  "nullPointMode": "null",
+	  "options": {
+		"alertThreshold": true
+	  },
+	  "percentage": false,
+	  "pluginVersion": "7.3.7",
+	  "pointradius": 2,
+	  "points": false,
+	  "renderer": "flot",
+	  "seriesOverrides": [],
+	  "spaceLength": 10,
+	  "stack": false,
+	  "steppedLine": false,
+	  "targets": [
+		{
+		  "expr": "sum (confluent_kafka_server_sent_bytes{kafka_id=~\"$clusterID\"})/60",
+		  "hide": false,
+		  "interval": "",
+		  "legendFormat": "",
+		  "refId": "A"
+		}
+	  ],
+	  "thresholds": [],
+	  "timeFrom": null,
+	  "timeRegions": [],
+	  "timeShift": null,
+	  "title": "Consumption Throughput(bytes/sec)",
+	  "tooltip": {
+		"shared": true,
+		"sort": 2,
+		"value_type": "individual"
+	  },
+	  "type": "graph",
+	  "xaxis": {
+		"buckets": null,
+		"mode": "time",
+		"name": null,
+		"show": true,
+		"values": []
+	  },
+	  "yaxes": [
+		{
+		  "format": "binBps",
+		  "label": null,
+		  "logBase": 1,
+		  "max": null,
+		  "min": null,
+		  "show": true
+		},
+		{
+		  "format": "short",
+		  "label": null,
+		  "logBase": 1,
+		  "max": null,
+		  "min": null,
+		  "show": true
+		}
+	  ],
+	  "yaxis": {
+		"align": false,
+		"alignLevel": null
+	  }
+	},
+	{
+	  "aliasColors": {},
+	  "bars": false,
+	  "dashLength": 10,
+	  "dashes": false,
+	  "datasource": "Prometheus",
+	  "description": "The count of records received over time. It is sum over time with inclusive range and must be read accordingly",
+	  "fieldConfig": {
+		"defaults": {
+		  "custom": {},
+		  "links": [],
+		  "displayName": "Received Records"
+		},
+		"overrides": []
+	  },
+	  "fill": 1,
+	  "fillGradient": 0,
+	  "gridPos": {
+		"h": 6,
+		"w": 12,
+		"x": 0,
+		"y": 25
+	  },
+	  "hiddenSeries": false,
+	  "id": 83,
+	  "legend": {
+		"avg": false,
+		"current": false,
+		"max": false,
+		"hideZero": false,
+		"min": false,
+		"show": false,
+		"total": false,
+		"values": false
+	  },
+	  "lines": true,
+	  "linewidth": 1,
+	  "nullPointMode": "null",
+	  "options": {
+		"alertThreshold": true
+	  },
+	  "percentage": false,
+	  "pluginVersion": "7.3.7",
+	  "pointradius": 2,
+	  "points": false,
+	  "renderer": "flot",
+	  "seriesOverrides": [],
+	  "spaceLength": 10,
+	  "stack": false,
+	  "steppedLine": false,
+	  "targets": [
+		{
+		  "expr": "sum(sum_over_time(confluent_kafka_server_received_records{kafka_id=~\"$clusterID\"}[$interval]))",
+		  "hide": false,
+		  "instant": false,
+		  "interval": "$interval",
+		  "legendFormat": "",
+		  "range": true,
+		  "refId": "A"
+		}
+	  ],
+	  "thresholds": [],
+	  "timeFrom": null,
+	  "timeRegions": [],
+	  "timeShift": null,
+	  "title": "Production Throughput(records/time)",
+	  "tooltip": {
+		"shared": true,
+		"sort": 2,
+		"value_type": "individual"
+	  },
+	  "type": "graph",
+	  "xaxis": {
+		"buckets": null,
+		"mode": "time",
+		"name": null,
+		"show": true,
+		"values": []
+	  },
+	  "yaxes": [
+		{
+		  "decimals": null,
+		  "format": "none",
+		  "label": null,
+		  "logBase": 1,
+		  "max": null,
+		  "min": null,
+		  "show": true
+		},
+		{
+		  "format": "none",
+		  "label": null,
+		  "logBase": 1,
+		  "max": null,
+		  "min": null,
+		  "show": true
+		}
+	  ],
+	  "yaxis": {
+		"align": false,
+		"alignLevel": null
+	  }
+	},
+	{
+	  "aliasColors": {},
+	  "bars": false,
+	  "dashLength": 10,
+	  "dashes": false,
+	  "datasource": "Prometheus",
+	  "description": "The count of records sent over time. It is sum over time with inclusive range and must be read accordingly",
+	  "fieldConfig": {
+		"defaults": {
+		  "custom": {},
+		  "links": [],
+		  "displayName": "Sent Records"
+		},
+		"overrides": []
+	  },
+	  "fill": 1,
+	  "fillGradient": 0,
+	  "gridPos": {
+		"h": 6,
+		"w": 12,
+		"x": 12,
+		"y": 25
+	  },
+	  "hiddenSeries": false,
+	  "id": 84,
+	  "legend": {
+		"avg": false,
+		"current": false,
+		"max": false,
+		"hideZero": false,
+		"min": false,
+		"show": false,
+		"total": false,
+		"values": false
+	  },
+	  "lines": true,
+	  "linewidth": 1,
+	  "nullPointMode": "null",
+	  "options": {
+		"alertThreshold": true
+	  },
+	  "percentage": false,
+	  "pluginVersion": "7.3.7",
+	  "pointradius": 2,
+	  "points": false,
+	  "renderer": "flot",
+	  "seriesOverrides": [],
+	  "spaceLength": 10,
+	  "stack": false,
+	  "steppedLine": false,
+	  "targets": [
+		{
+		  "expr": "sum(sum_over_time(confluent_kafka_server_sent_records{kafka_id=~\"$clusterID\"}[$interval]))",
+		  "hide": false,
+		  "instant": false,
+		  "interval": "$interval",
+		  "legendFormat": "",
+		  "range": true,
+		  "refId": "A"
+		}
+	  ],
+	  "thresholds": [],
+	  "timeFrom": null,
+	  "timeRegions": [],
+	  "timeShift": null,
+	  "title": "Consumption Throughput(records/time)",
+	  "tooltip": {
+		"shared": true,
+		"sort": 2,
+		"value_type": "individual"
+	  },
+	  "type": "graph",
+	  "xaxis": {
+		"buckets": null,
+		"mode": "time",
+		"name": null,
+		"show": true,
+		"values": []
+	  },
+	  "yaxes": [
+		{
+		  "decimals": null,
+		  "format": "none",
+		  "label": null,
+		  "logBase": 1,
+		  "max": null,
+		  "min": null,
+		  "show": true
+		},
+		{
+		  "format": "none",
+		  "label": null,
+		  "logBase": 1,
+		  "max": null,
+		  "min": null,
+		  "show": true
+		}
+	  ],
+	  "yaxis": {
+		"align": false,
+		"alignLevel": null
+	  }
+	},
+	{
+	  "aliasColors": {},
+	  "bars": false,
+	  "dashLength": 10,
+	  "dashes": false,
+	  "datasource": "Prometheus",
+	  "description": "The current count of bytes retained by the cluster, before replication, summed across all partitions",
+	  "fieldConfig": {
+		"defaults": {
+		  "displayName": "Storage",
+		  "custom": {},
+		  "links": [],
+		  "unit": "bytes"
+		},
+		"overrides": []
+	  },
+	  "fill": 1,
+	  "fillGradient": 0,
+	  "gridPos": {
+		"h": 6,
+		"w": 12,
+		"x": 0,
+		"y": 31
+	  },
+	  "hiddenSeries": false,
+	  "id": 85,
+	  "legend": {
+		"alignAsTable": false,
+		"avg": false,
+		"current": false,
+		"hideEmpty": false,
+		"hideZero": true,
+		"max": false,
+		"min": false,
+		"rightSide": false,
+		"show": false,
+		"total": false,
+		"values": false
+	  },
+	  "lines": true,
+	  "linewidth": 1,
+	  "nullPointMode": "null",
+	  "options": {
+		"alertThreshold": true
+	  },
+	  "percentage": false,
+	  "pluginVersion": "7.3.7",
+	  "pointradius": 2,
+	  "points": false,
+	  "renderer": "flot",
+	  "seriesOverrides": [],
+	  "spaceLength": 10,
+	  "stack": false,
+	  "steppedLine": false,
+	  "targets": [
+		{
+		  "expr": "sum(confluent_kafka_server_retained_bytes{kafka_id=~\"$clusterID\"})",
+		  "hide": false,
+		  "interval": "",
+		  "legendFormat": "",
+		  "refId": "A"
+		}
+	  ],
+	  "thresholds": [],
+	  "timeFrom": null,
+	  "timeRegions": [],
+	  "timeShift": null,
+	  "title": "Storage (pre-replication)",
+	  "tooltip": {
+		"shared": true,
+		"sort": 2,
+		"value_type": "individual"
+	  },
+	  "type": "graph",
+	  "xaxis": {
+		"buckets": null,
+		"mode": "time",
+		"name": null,
+		"show": true,
+		"values": []
+	  },
+	  "yaxes": [
+		{
+		  "decimals": null,
+		  "format": "bytes",
+		  "label": null,
+		  "logBase": 1,
+		  "max": null,
+		  "min": null,
+		  "show": true
+		},
+		{
+		  "format": "short",
+		  "label": null,
+		  "logBase": 1,
+		  "max": null,
+		  "min": null,
+		  "show": true
+		}
+	  ],
+	  "yaxis": {
+		"align": false,
+		"alignLevel": null
+	  }
+	},
+	{
+	  "aliasColors": {},
+	  "bars": true,
+	  "dashLength": 10,
+	  "dashes": false,
+	  "datasource": "Prometheus",
+	  "description": "The count of requests received over the network per second",
+	  "fieldConfig": {
+		"defaults": {
+		  "custom": {},
+		  "links": []
+		},
+		"overrides": []
+	  },
+	  "fill": 1,
+	  "fillGradient": 0,
+	  "gridPos": {
+		"h": 6,
+		"w": 12,
+		"x": 12,
+		"y": 31
+	  },
+	  "hiddenSeries": false,
+	  "id": 86,
+	  "legend": {
+		"alignAsTable": false,
+		"avg": false,
+		"current": false,
+		"hideEmpty": false,
+		"hideZero": true,
+		"max": false,
+		"min": false,
+		"rightSide": false,
+		"show": true,
+		"total": false,
+		"values": false
+	  },
+	  "lines": false,
+	  "linewidth": 1,
+	  "nullPointMode": "null",
+	  "options": {
+		"alertThreshold": true
+	  },
+	  "percentage": false,
+	  "pluginVersion": "7.3.7",
+	  "pointradius": 2,
+	  "points": false,
+	  "renderer": "flot",
+	  "seriesOverrides": [],
+	  "spaceLength": 10,
+	  "stack": true,
+	  "steppedLine": false,
+	  "targets": [
+		{
+		  "expr": "confluent_kafka_server_request_count{kafka_id=~\"$clusterID\"}/60",
+		  "hide": false,
+		  "interval": "$interval",
+		  "legendFormat": "{{type}}",
+		  "range": true,
+		  "refId": "A"
+		}
+	  ],
+	  "thresholds": [],
+	  "timeFrom": null,
+	  "timeRegions": [],
+	  "timeShift": null,
+	  "title": "Request rate (per second)",
+	  "tooltip": {
+		"shared": true,
+		"sort": 2,
+		"value_type": "individual"
+	  },
+	  "type": "graph",
+	  "xaxis": {
+		"buckets": null,
+		"mode": "time",
+		"name": null,
+		"show": true,
+		"values": []
+	  },
+	  "yaxes": [
+		{
+		  "decimals": null,
+		  "format": "reqps",
+		  "label": null,
+		  "logBase": 1,
+		  "max": null,
+		  "min": null,
+		  "show": true
+		},
+		{
+		  "format": "short",
+		  "label": null,
+		  "logBase": 1,
+		  "max": null,
+		  "min": null,
+		  "show": true
+		}
+	  ],
+	  "yaxis": {
+		"align": false,
+		"alignLevel": null
+	  }
+	},
+	{
+      "collapsed": true,
+      "datasource": "Prometheus",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 37
+      },
+      "id": 16,
+      "panels": [
+		{
+		  "aliasColors": {},
+		  "bars": false,
+		  "dashLength": 10,
+		  "dashes": false,
+		  "datasource": "Prometheus",
+		  "description": "The current count of bytes retained by the cluster, before replication, summed across all partitions",
+		  "fieldConfig": {
+			"defaults": {
+			  "custom": {},
+			  "links": []
+			},
+			"overrides": []
+		  },
+		  "fill": 1,
+		  "fillGradient": 0,
+		  "gridPos": {
+			"h": 9,
+			"w": 24,
+			"x": 0,
+			"y": 38
+		  },
+		  "hiddenSeries": false,
+		  "id": 6,
+		  "legend": {
+			"alignAsTable": false,
+			"avg": false,
+			"current": false,
+			"hideEmpty": false,
+			"hideZero": true,
+			"max": false,
+			"min": false,
+			"rightSide": false,
+			"show": true,
+			"total": false,
+			"values": false
+		  },
+		  "lines": true,
+		  "linewidth": 1,
+		  "nullPointMode": "null",
+		  "options": {
+			"alertThreshold": true
+		  },
+		  "percentage": false,
+		  "pluginVersion": "7.3.7",
+		  "pointradius": 2,
+		  "points": false,
+		  "renderer": "flot",
+		  "seriesOverrides": [],
+		  "spaceLength": 10,
+		  "stack": false,
+		  "steppedLine": false,
+		  "targets": [
+			{
+			  "expr": "sum by (topic) (confluent_kafka_server_retained_bytes{kafka_id=~\"$clusterID\"})",
+			  "hide": false,
+			  "interval": "",
+			  "legendFormat": "{{topic}}",
+			  "refId": "A"
+			}
+		  ],
+		  "thresholds": [],
+		  "timeFrom": null,
+		  "timeRegions": [],
+		  "timeShift": null,
+		  "title": "Storage (pre-replication)",
+		  "tooltip": {
+			"shared": true,
+			"sort": 2,
+			"value_type": "individual"
+		  },
+		  "type": "graph",
+		  "xaxis": {
+			"buckets": null,
+			"mode": "time",
+			"name": null,
+			"show": true,
+			"values": []
+		  },
+		  "yaxes": [
+			{
+			  "decimals": null,
+			  "format": "bits",
+			  "label": null,
+			  "logBase": 1,
+			  "max": null,
+			  "min": null,
+			  "show": true
+			},
+			{
+			  "format": "short",
+			  "label": null,
+			  "logBase": 1,
+			  "max": null,
+			  "min": null,
+			  "show": true
+			}
+		  ],
+		  "yaxis": {
+			"align": false,
+			"alignLevel": null
+		  }
+		},
+		{
+		  "aliasColors": {},
+		  "bars": false,
+		  "dashLength": 10,
+		  "dashes": false,
+		  "datasource": "Prometheus",
+		  "description": "The count of bytes received per second from the network.",
+		  "fieldConfig": {
+			"defaults": {
+			  "custom": {},
+			  "links": [],
+			  "unit": "binBps"
+			},
+			"overrides": []
+		  },
+		  "fill": 1,
+		  "fillGradient": 0,
+		  "gridPos": {
+			"h": 6,
+			"w": 12,
+			"x": 0,
+			"y": 47
+		  },
+		  "hiddenSeries": false,
+		  "id": 4,
+		  "legend": {
+			"avg": false,
+			"current": false,
+			"max": false,
+			"min": false,
+			"show": true,
+			"total": false,
+			"values": false
+		  },
+		  "lines": true,
+		  "linewidth": 1,
+		  "nullPointMode": "null",
+		  "options": {
+			"alertThreshold": true
+		  },
+		  "percentage": false,
+		  "pluginVersion": "7.3.7",
+		  "pointradius": 2,
+		  "points": false,
+		  "renderer": "flot",
+		  "seriesOverrides": [],
+		  "spaceLength": 10,
+		  "stack": false,
+		  "steppedLine": false,
+		  "targets": [
+			{
+			  "expr": "sum by (topic) (confluent_kafka_server_received_bytes{kafka_id=~\"$clusterID\"})/60",
+			  "hide": false,
+			  "interval": "",
+			  "legendFormat": "{{topic}}",
+			  "refId": "A"
+			}
+		  ],
+		  "thresholds": [],
+		  "timeFrom": null,
+		  "timeRegions": [],
+		  "timeShift": null,
+		  "title": "Production Throughput(bytes/sec)",
+		  "tooltip": {
+			"shared": true,
+			"sort": 2,
+			"value_type": "individual"
+		  },
+		  "type": "graph",
+		  "xaxis": {
+			"buckets": null,
+			"mode": "time",
+			"name": null,
+			"show": true,
+			"values": []
+		  },
+		  "yaxes": [
+			{
+			  "decimals": null,
+			  "format": "binBps",
+			  "label": null,
+			  "logBase": 1,
+			  "max": null,
+			  "min": null,
+			  "show": true
+			},
+			{
+			  "format": "short",
+			  "label": null,
+			  "logBase": 1,
+			  "max": null,
+			  "min": null,
+			  "show": true
+			}
+		  ],
+		  "yaxis": {
+			"align": false,
+			"alignLevel": null
+		  }
+		},
+		{
+		  "aliasColors": {},
+		  "bars": false,
+		  "dashLength": 10,
+		  "dashes": false,
+		  "datasource": "Prometheus",
+		  "description": "The count of bytes sent per second over the network",
+		  "fieldConfig": {
+			"defaults": {
+			  "custom": {},
+			  "links": [],
+			  "unit": "binBps"
+			},
+			"overrides": []
+		  },
+		  "fill": 1,
+		  "fillGradient": 0,
+		  "gridPos": {
+			"h": 6,
+			"w": 12,
+			"x": 12,
+			"y": 47
+		  },
+		  "hiddenSeries": false,
+		  "id": 2,
+		  "legend": {
+			"avg": false,
+			"current": false,
+			"hideEmpty": false,
+			"hideZero": false,
+			"max": false,
+			"min": false,
+			"show": true,
+			"total": false,
+			"values": false
+		  },
+		  "lines": true,
+		  "linewidth": 1,
+		  "nullPointMode": "null",
+		  "options": {
+			"alertThreshold": true
+		  },
+		  "percentage": false,
+		  "pluginVersion": "7.3.7",
+		  "pointradius": 2,
+		  "points": false,
+		  "renderer": "flot",
+		  "seriesOverrides": [],
+		  "spaceLength": 10,
+		  "stack": false,
+		  "steppedLine": false,
+		  "targets": [
+			{
+			  "expr": "sum by (topic) (confluent_kafka_server_sent_bytes{kafka_id=~\"$clusterID\"})/60",
+			  "hide": false,
+			  "interval": "",
+			  "legendFormat": "{{topic}}",
+			  "refId": "A"
+			}
+		  ],
+		  "thresholds": [],
+		  "timeFrom": null,
+		  "timeRegions": [],
+		  "timeShift": null,
+		  "title": "Consumption Throughput(bytes/sec)",
+		  "tooltip": {
+			"shared": true,
+			"sort": 2,
+			"value_type": "individual"
+		  },
+		  "type": "graph",
+		  "xaxis": {
+			"buckets": null,
+			"mode": "time",
+			"name": null,
+			"show": true,
+			"values": []
+		  },
+		  "yaxes": [
+			{
+			  "format": "binBps",
+			  "label": null,
+			  "logBase": 1,
+			  "max": null,
+			  "min": null,
+			  "show": true
+			},
+			{
+			  "format": "short",
+			  "label": null,
+			  "logBase": 1,
+			  "max": null,
+			  "min": null,
+			  "show": true
+			}
+		  ],
+		  "yaxis": {
+			"align": false,
+			"alignLevel": null
+		  }
+		},
+		{
+		  "aliasColors": {},
+		  "bars": false,
+		  "dashLength": 10,
+		  "dashes": false,
+		  "datasource": "Prometheus",
+		  "description": "The count of records received over time. It is sum over time with inclusive range and must be read accordingly",
+		  "fieldConfig": {
+			"defaults": {
+			  "custom": {},
+			  "links": []
+			},
+			"overrides": []
+		  },
+		  "fill": 1,
+		  "fillGradient": 0,
+		  "gridPos": {
+			"h": 5,
+			"w": 12,
+			"x": 0,
+			"y": 53
+		  },
+		  "hiddenSeries": false,
+		  "id": 31,
+		  "legend": {
+			"avg": false,
+			"current": false,
+			"max": false,
+			"hideEmpty": false,
+			"hideZero": false,
+			"min": false,
+			"show": true,
+			"total": false,
+			"values": false
+		  },
+		  "lines": true,
+		  "linewidth": 1,
+		  "nullPointMode": "null",
+		  "options": {
+			"alertThreshold": true
+		  },
+		  "percentage": false,
+		  "pluginVersion": "7.3.7",
+		  "pointradius": 2,
+		  "points": false,
+		  "renderer": "flot",
+		  "seriesOverrides": [],
+		  "spaceLength": 10,
+		  "stack": false,
+		  "steppedLine": false,
+		  "targets": [
+			{
+			  "expr": "sum(sum_over_time(confluent_kafka_server_received_records{kafka_id=~\"$clusterID\"}[$interval])) by (topic)",
+			  "hide": false,
+			  "instant": false,
+			  "interval": "$interval",
+			  "legendFormat": "{{topic}}",
+			  "range": true,
+			  "refId": "A"
+			}
+		  ],
+		  "thresholds": [],
+		  "timeFrom": null,
+		  "timeRegions": [],
+		  "timeShift": null,
+		  "title": "Production Throughput(records/time)",
+		  "tooltip": {
+			"shared": true,
+			"sort": 2,
+			"value_type": "individual"
+		  },
+		  "type": "graph",
+		  "xaxis": {
+			"buckets": null,
+			"mode": "time",
+			"name": null,
+			"show": true,
+			"values": []
+		  },
+		  "yaxes": [
+			{
+			  "decimals": null,
+			  "$$hashKey": "object:658",
+			  "format": "none",
+			  "label": null,
+			  "logBase": 1,
+			  "max": null,
+			  "min": null,
+			  "show": true
+			},
+			{
+			  "format": "none",
+			  "label": null,
+			  "logBase": 1,
+			  "max": null,
+			  "min": null,
+			  "show": true
+			}
+		  ],
+		  "yaxis": {
+			"align": false,
+			"alignLevel": null
+		  }
+		},
+		{
+		  "aliasColors": {},
+		  "bars": false,
+		  "dashLength": 10,
+		  "dashes": false,
+		  "datasource": "Prometheus",
+		  "description": "The count of records sent over time. It is sum over time with inclusive range and must be read accordingly",
+		  "fieldConfig": {
+			"defaults": {
+			  "custom": {},
+			  "links": []
+			},
+			"overrides": []
+		  },
+		  "fill": 1,
+		  "fillGradient": 0,
+		  "gridPos": {
+			"h": 5,
+			"w": 12,
+			"x": 12,
+			"y": 53
+		  },
+		  "hiddenSeries": false,
+		  "id": 30,
+		  "legend": {
+			"avg": false,
+			"current": false,
+			"hideEmpty": false,
+			"hideZero": false,
+			"max": false,
+			"min": false,
+			"show": true,
+			"total": false,
+			"values": false
+		  },
+		  "lines": true,
+		  "linewidth": 1,
+		  "nullPointMode": "null",
+		  "options": {
+			"alertThreshold": true
+		  },
+		  "percentage": false,
+		  "pluginVersion": "7.3.7",
+		  "pointradius": 2,
+		  "points": false,
+		  "renderer": "flot",
+		  "seriesOverrides": [],
+		  "spaceLength": 10,
+		  "stack": false,
+		  "steppedLine": false,
+		  "targets": [
+			{
+			  "expr": "sum(sum_over_time(confluent_kafka_server_sent_records{kafka_id=~\"$clusterID\"}[$interval])) by (topic, kafka_id)",
+			  "hide": false,
+			  "instant": false,
+			  "interval": "$interval",
+			  "legendFormat": "{{topic}}",
+			  "range": true,
+			  "refId": "A"
+			}
+		  ],
+		  "thresholds": [],
+		  "timeFrom": null,
+		  "timeRegions": [],
+		  "timeShift": null,
+		  "title": "Consumption Throughput(records/time)",
+		  "tooltip": {
+			"shared": true,
+			"sort": 2,
+			"value_type": "individual"
+		  },
+		  "type": "graph",
+		  "xaxis": {
+			"buckets": null,
+			"mode": "time",
+			"name": null,
+			"show": true,
+			"values": []
+		  },
+		  "yaxes": [
+			{
+			  "decimals": null,
+			  "format": "none",
+			  "label": null,
+			  "logBase": 1,
+			  "max": null,
+			  "min": null,
+			  "show": true
+			},
+			{
+			  "format": "none",
+			  "label": null,
+			  "logBase": 1,
+			  "max": null,
+			  "min": null,
+			  "show": true
+			}
+		  ],
+		  "yaxis": {
+			"align": false,
+			"alignLevel": null
+		  }
+		},
+		{
+		  "aliasColors": {},
+		  "bars": false,
+		  "dashLength": 10,
+		  "dashes": false,
+		  "datasource": "Prometheus",
+		  "description": "The lag between a group member's committed offset and the partition's high watermark.",
+		  "fieldConfig": {
+			"defaults": {
+			  "custom": {},
+			  "links": []
+			},
+			"overrides": []
+		  },
+		  "fill": 1,
+		  "fillGradient": 0,
+		  "gridPos": {
+			"h": 9,
+			"w": 24,
+			"x": 0,
+			"y": 58
+		  },
+		  "hiddenSeries": false,
+		  "id": 87,
+		  "legend": {
+			"alignAsTable": false,
+			"avg": false,
+			"current": false,
+			"hideEmpty": false,
+			"hideZero": true,
+			"max": false,
+			"min": false,
+			"rightSide": false,
+			"show": true,
+			"total": false,
+			"values": false
+		  },
+		  "lines": true,
+		  "linewidth": 1,
+		  "nullPointMode": "null",
+		  "options": {
+			"alertThreshold": true
+		  },
+		  "percentage": false,
+		  "pluginVersion": "7.3.7",
+		  "pointradius": 2,
+		  "points": false,
+		  "renderer": "flot",
+		  "seriesOverrides": [],
+		  "spaceLength": 10,
+		  "stack": false,
+		  "steppedLine": false,
+		  "targets": [
+			{
+			  "expr": "sum by (topic, consumer_group_id) (confluent_kafka_server_consumer_lag_offsets{kafka_id=~\"$clusterID\"})",
+			  "hide": false,
+			  "interval": "",
+			  "legendFormat": "{{topic}}-{{consumer_group_id}}",
+			  "refId": "A"
+			}
+		  ],
+		  "thresholds": [],
+		  "timeFrom": null,
+		  "timeRegions": [],
+		  "timeShift": null,
+		  "title": "Consumer lag",
+		  "tooltip": {
+			"shared": true,
+			"sort": 2,
+			"value_type": "individual"
+		  },
+		  "type": "graph",
+		  "xaxis": {
+			"buckets": null,
+			"mode": "time",
+			"name": null,
+			"show": true,
+			"values": []
+		  },
+		  "yaxes": [
+			{
+			  "decimals": null,
+			  "format": "none",
+			  "label": null,
+			  "logBase": 1,
+			  "max": null,
+			  "min": null,
+			  "show": true
+			},
+			{
+			  "format": "none",
+			  "label": null,
+			  "logBase": 1,
+			  "max": null,
+			  "min": null,
+			  "show": true
+			}
+		  ],
+		  "yaxis": {
+			"align": false,
+			"alignLevel": null
+		  }
+		}
+	  ],
+      "title": "Split By Topics",
+      "type": "row"
+    },
+	{
+      "collapsed": true,
+      "datasource": "Prometheus",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 67
+      },
+      "id": 42,
+      "panels": [
+        {
+          "datasource": "Prometheus",
+		  "description": "The total number of schemas in schema registry. Schema registry usage is free up to 1000 schemas. After that it is charged",
+          "fieldConfig": {
+		  "defaults": {
+		    "color": {
+			  "mode": "thresholds"
+		    },
+		    "custom": {},
+		    "mappings": [],
+			"displayName": "Schema count",
+		    "max": 1000,
+		    "min": 0,
+			"noValue": "0",
+		    "thresholds": {
+			  "mode": "percentage",
+			  "steps": [
+			    {
+				  "color": "green",
+				  "value": null
+			    },
+			    {
+				  "color": "#EAB839",
+				  "value": 80
+			    },
+			    {
+				  "color": "red",
+				  "value": 90
+			    }
+			  ]
+		    },
+		    "unit": "none"
+		  },
+		  "overrides": []
+	    },
+          "gridPos": {
+            "h": 5,
+            "w": 4,
+            "x": 0,
+            "y": 68
+          },
+          "id": 44,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "last"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "value"
+          },
+          "pluginVersion": "7.3.7",
+          "targets": [
+            {
+              "expr": "sum(confluent_kafka_schema_registry_schema_count{schema_registry_id=~\"$schemaregistryClusterID\"})",
+              "interval": "",
+              "legendFormat": "",
+              "queryType": "randomWalk",
+              "refId": "A"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Schema count",
+          "type": "stat"
+        }
+      ],
+      "title": "Schema Registry",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "datasource": "Prometheus",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 63
+      },
+      "id": 25,
+      "panels": [
+        {
+          "alert": {
+            "alertRuleTags": {},
+            "conditions": [
+              {
+                "evaluator": {
+                  "params": [
+                    50
+                  ],
+                  "type": "gt"
+                },
+                "operator": {
+                  "type": "and"
+                },
+                "query": {
+                  "params": [
+                    "A",
+                    "5m",
+                    "now"
+                  ]
+                },
+                "reducer": {
+                  "params": [],
+                  "type": "max"
+                },
+                "type": "query"
+              }
+            ],
+            "executionErrorState": "alerting",
+            "for": "5m",
+            "frequency": "1m",
+            "handler": 1,
+            "name": "Metrics API latency alert",
+            "noDataState": "no_data",
+            "notifications": []
+          },
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {},
+              "links": [],
+			  "unit": "s"
+            },
+            "overrides": []
+          },
+          "fill": 1,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 64
+          },
+          "hiddenSeries": false,
+          "id": 98,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "7.3.7",
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "scrape_duration_seconds{job=\"Confluent Cloud\"}",
+              "interval": "",
+              "legendFormat": "{{instance}}",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [
+            {
+              "colorMode": "critical",
+              "fill": true,
+              "line": true,
+              "op": "gt",
+              "value": 50
+            }
+          ],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Scrape duration",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "s",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        }
+      ],
+      "title": "Scrape Duration",
+      "type": "row"
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 26,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+	  {
+        "description": "Kafka CLuster ID",
+        "hide": 2,
+        "label": "Kafka Cluster ID",
+        "name": "clusterID",
+        "query": "lkc-cluster",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+	  {
+        "hide": 2,
+        "label": "Schema Registry Cluster ID",
+        "name": "schemaregistryClusterID",
+        "query": "lsrc-srcluster",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+	  {
+        "auto": true,
+		"auto_count": 15,
+        "auto_min": "10s",
+        "current": {
+          "selected": false,
+          "text": "auto",
+            "value": "$__auto_interval_interval"
+        },
+        "hide": 0,
+        "label": "interval",
+        "name": "interval",
+        "options": [
+          {
+            "selected": true,
+            "text": "auto",
+            "value": "$__auto_interval_interval"
+          },
+          {
+            "selected": false,
+            "text": "1m",
+            "value": "1m"
+          },
+          {
+            "selected": false,
+            "text": "5m",
+            "value": "5m"
+          },
+          {
+            "selected": false,
+            "text": "10m",
+            "value": "10m"
+          },
+          {
+            "selected": false,
+            "text": "30m",
+            "value": "30m"
+          },
+          {
+            "selected": false,
+            "text": "1h",
+            "value": "1h"
+          },
+		  {
+            "selected": false,
+            "text": "4h",
+            "value": "4h"
+          },
+          {
+            "selected": false,
+            "text": "6h",
+            "value": "6h"
+          },
+          {
+            "selected": false,
+            "text": "12h",
+            "value": "12h"
+          },
+          {
+            "selected": false,
+            "text": "1d",
+            "value": "1d"
+          },
+          {
+            "selected": false,
+            "text": "7d",
+            "value": "7d"
+          },
+          {
+            "selected": false,
+            "text": "14d",
+            "value": "14d"
+          },
+          {
+            "selected": false,
+            "text": "30d",
+            "value": "30d"
+          }
+        ],
+        "query": "1m,5m,10m,30m,1h,4h,6h,12h,1d,7d,14d,30d",
+        "queryValue": "",
+        "refresh": 2,
+        "skipUrlSync": false,
+        "type": "interval"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "",
+  "title": "RTP Kafka Cluster - Production",
+  "uid": "",
+  "version": 3
+}
